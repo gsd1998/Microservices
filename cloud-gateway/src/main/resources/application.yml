@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: cloud-gateway
+
+  cloud:
+    gateway:
+      routes:
+      - id: address-service
+        uri: lb://ADDRESS-SERVICE
+        predicates:
+        - Path= /address/**
+        filters:
+        - AuthFilter
+
+      - id: employee-service
+        uri: lb://EMPLOYEE-SERVICE
+        predicates:
+        - Path= /employee/**
+        filters:
+          - AuthFilter
+
+      - id: auth-service
+        uri: lb://AUTH-SERVICE
+        predicates:
+        - Path=/auth/**
+
+
+#  cloud.gateway.mvc:
+#    routesMap:
+#      configRoute1:
+#        uri: lb://ADDRESS-SERVICE
+#        predicates:
+#          - Path=/address/**
+#      configRoute2:
+#        id: route2CustomId
+#        uri: lb://EMPLOYEE-SERVICE
+#        predicates:
+#          - Path=/employee/**
+#      configRoute3:
+#        id: route3CustomId
+#        uri: lb://AUTH-SERVICE
+#        predicates:
+#          - Path=/auth/**
+
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone:  http://localhost:5000/eureka/
+  instance:
+    hostname: localhost
+
+server:
+  port: 9191
+
